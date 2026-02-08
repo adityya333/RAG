@@ -72,7 +72,7 @@ end time in seconds and the text at that time: {context}
 
 import google.genai as genai
 
-client = genai.Client(api_key="AIzaSyCC_p73UaeTMk4GUcD4VGPtCsgXwgt5VCE")
+client = genai.Client(api_key="hh")
 
 # response = client.models.generate_content(
 #     model="models/gemini-2.5-flash",
@@ -94,4 +94,5 @@ for chunk in stream:
         for ch in chunk.text:
             print(ch, end="", flush=True)
             time.sleep(0.008)
+
 
