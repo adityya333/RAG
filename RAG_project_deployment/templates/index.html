@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>rag project</title>
+</head>
+<body>
+    <div class="container">
+        <div class="left_panel">
+            <iframe 
+                src="https://www.youtube.com/embed/DwauNBnF-8A?si=zWRwp-yT6pW_2qPL"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+        </div>
+        <div class="right_panel">
+            <div class="chat_container" id="chat-container">
+                <!-- messages will come here -->
+                    <p>Message 1</p>
+                    <p>Message 2</p>
+                    <p>Message 3</p>
+                    <p>Message 4</p>
+                    <p>Message 5</p>
+                    <p>Message 6</p>
+                    <p>Message 7</p>
+                    <p>Message 8</p>
+                    <p>Message 9</p>
+                    <p>Message 10</p>
+            </div>
+
+            <form class="chat_form" id="chat-form">
+                 <!-- input + button will come here -->
+                  <input type="text" id="chat-input" placeholder="Ask a question..." required>
+                  <button type="submit">Send</button>
+            </form>
+
+
+        </div>
+    </div>
+
+
+    <script>
+    const form = document.getElementById("chat-form");
+    const input = document.getElementById("chat-input");
+    const chatContainer = document.getElementById("chat-container");
+
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const userMessage = input.value;
+        if (!userMessage) return;
+
+        // 1. show user message
+        const userP = document.createElement("p");
+        userP.textContent = userMessage;
+        chatContainer.appendChild(userP);
+
+        input.value = "";
+
+        // 2. send question to Flask
+        const response = await fetch("/ask", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                question: userMessage
+            })
+        });
+
+        const data = await response.json();
+
+        // 3. show Flask reply
+        const botP = document.createElement("p");
+        botP.textContent = data.answer;
+        chatContainer.appendChild(botP);
+    });
+</script>
+
+
+
+
+
+</body>
+</html>
